@@ -16,3 +16,7 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::resource('movies','MoviesController'); //o modelo tipo post, segundo parametro controlador que gere as rotas
+
+Route::resource('personas','PersonasController');
