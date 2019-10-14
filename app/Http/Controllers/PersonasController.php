@@ -16,8 +16,8 @@ class PersonasController extends Controller
      */
     public function index()
     {
-        return Personas::all();
-        //return Personas::with('movies')->get();
+        //return Personas::all();
+        return Personas::with('movies')->get();
     }
 
     /**
@@ -41,7 +41,7 @@ class PersonasController extends Controller
         $data = $request->all();
         
         $validator=Validator::make($data,[
-            'name_persona' => 'required|unique:movies|string|max:60', //campo que é obrigatório ser preenchido | para validar só strings e com máximo de 255 caracteres; unique permite ser único:nome_da_tabela
+            'name_persona' => 'required|unique:personas|string|max:60', //campo que é obrigatório ser preenchido | para validar só strings e com máximo de 255 caracteres; unique permite ser único:nome_da_tabela
             'description' => 'required|string|max:255',
             'movie_id' => 'required|exists:movies,id',
             ],[
