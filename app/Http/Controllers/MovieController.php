@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Movies;
+use App\Movie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 
-class MoviesController extends Controller
+class MovieController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,7 @@ class MoviesController extends Controller
      */
     public function index()
     {
-        return Movies::all();
+        return Movie::all();
     }
 
     /**
@@ -51,35 +51,35 @@ class MoviesController extends Controller
             return $validator->errors()->all();
         }
 
-        $movies = Movies::create(
+        $movie = Movie::create(
             [
                 'name_movie' => $data['name_movie'],
                 'description_movie' => $data['description_movie']
             ]
         );
 
-        return $movies;
+        return $movie;
 
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Movies  $movies
+     * @param  \App\Movie $movie
      * @return \Illuminate\Http\Response
      */
-    public function show(Movies $movies)
+    public function show(Movie $movie)
     {
-        return $movies;
+        return $movie;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Movies  $movies
+     * @param  \App\Movie $movie
      * @return \Illuminate\Http\Response
      */
-    public function edit(Movies $movies)
+    public function edit(Movie $movie)
     {
         //
     }
@@ -88,27 +88,27 @@ class MoviesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Movies  $movies
+     * @param  \App\Movie $movie
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Movies $movies)
+    public function update(Request $request, Movie $movie)
     {
         $data = $request->all();
         
-        $movies->update($data); 
+        $movie->update($data); 
     
-        return $movies;
+        return $movie;
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Movies  $movies
+     * @param  \App\Movie $movie
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Movies $movies)
+    public function destroy(Movie $movie)
     {
-        $movies->delete();
+        $movie->delete();
 
         return "deleted";
     }

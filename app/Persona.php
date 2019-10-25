@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Personas extends Model
+class Persona extends Model
 {
     use SoftDeletes;
     //
@@ -13,8 +13,8 @@ class Personas extends Model
         'name_persona','description','movie_id'
     ];
 
-    public function movies(){
-        return $this->belongsTo('App\Movies','movie_id'); //o campo user id pertence ao App user, no segundo parametro especifica-se a chave
+    public function movie(){
+        return $this->belongsTo('App\Movie','movie_id'); //o campo user id pertence ao App user, no segundo parametro especifica-se a chave
         
     }
 }

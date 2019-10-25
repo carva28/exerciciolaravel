@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Personas;
+use App\Persona;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 
-class PersonasController extends Controller
+class PersonaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +16,18 @@ class PersonasController extends Controller
      */
     public function index()
     {
-        //return Personas::all();
-        return Personas::with('movies')->get();
+        //return Persona::all();
+        $persona = Persona::with('movie')->get();
+        //return Persona::with('movie')->get();
+
+        $response = [
+            'data' => $persona,
+            'message' => 'Listagem de Personas',
+            'result' => 'OK'
+        ];
+
+        //return response($persona,200);
+        return response($response);
     }
 
     /**
@@ -42,7 +52,8 @@ class PersonasController extends Controller
         
         $validator=Validator::make($data,[
             'name_persona' => 'required|unique:personas|string|max:60', //campo que é obrigatório ser preenchido | para validar só strings e com máximo de 255 caracteres; unique permite ser único:nome_da_tabela
-            'description' => 'required|string|max:255',
+            //'description' => 'required|string|max:255',
+            'description' => 'required|image',
             'movie_id' => 'required|exists:movies,id',
             ],[
                 'name_persona.required' => 'é necessário ter um nome',
@@ -53,8 +64,13 @@ class PersonasController extends Controller
         if($validator->fails()){
             return $validator->errors()->all();
         }
+        //$request->file('description')->store('public');
+        //$request->file('description')->store('images');  -- cria uma nova posta images e adiciona
+        $file = $request->file('description')->store('images');
+        $data['description'] = $file;
 
-        $personas = Personas::create(
+
+        $persona = Persona::create(
             [
                 'name_persona' => $data['name_persona'],
                 'description' => $data['description'],
@@ -62,28 +78,39 @@ class PersonasController extends Controller
             ]
         );
 
-        return $personas;
+        //return $persona;
+
+        //return response($persona,201);
+
+        $response = [
+            'data' => $persona,
+            'message' => 'Personas adicionada',
+            'result' => 'OK'
+        ];
+
+
+        return response($response);
 
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Personas  $personas
+     * @param  \App\Persona  $persona
      * @return \Illuminate\Http\Response
      */
-    public function show(Personas $personas)
+    public function show(Persona $persona)
     {
-        return $personas;
+        return $persona;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Personas  $personas
+     * @param  \App\Persona $persona
      * @return \Illuminate\Http\Response
      */
-    public function edit(Personas $personas)
+    public function edit(Persona $persona)
     {
         //
     }
@@ -92,26 +119,44 @@ class PersonasController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Personas  $personas
+     * @param  \App\Persona $persona
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Personas $personas)
+    public function update(Request $request, Persona $persona)
     {
         $data = $request->all();
-        $personas->update($data);
-        return 'Alterações efetuadas.'; //mensagem para user
+        $persona->update($data);
+        //return $persona; //mensagem para user
+
+        $response = [
+            'data' => $persona,
+            'message' => 'Personas atualizada',
+            'result' => 'OK'
+        ];
+
+
+        return response($response);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Personas  $personas
+     * @param  \App\Persona $persona
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Personas $personas)
+    public function destroy(Persona $persona)
     {
-        $personas->delete();
+        $persona->delete();
 
-        return "deleted";
+        //return "deleted";
+
+        $response = [
+            'data' => '',
+            'message' => 'Personas eliminada',
+            'result' => 'OK'
+        ];
+
+
+        return response($response);
     }
 }

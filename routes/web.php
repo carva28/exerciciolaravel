@@ -26,6 +26,12 @@ Auth::routes();
  */
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/list', 'MainController@list')->name('list');
+
+Route::get('/insert-persona','MainController@form')->name('insert-form');  
+
+Route::post('/insert-persona','MainController@insert')->name('insert-persona');  //name é o nome da rota para colocar no formulário
+
 /**
  * Backoffice Routes
  */
